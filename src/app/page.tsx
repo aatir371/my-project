@@ -1,13 +1,15 @@
 'use client'
 
-import { Button } from "@/components/ui/button"
-import { Camera } from 'lucide-react';
-import { ExampleDTO } from "../../_dto/types";
-
-
 import { useState, useEffect } from "react";
 import { TaskDTO } from "../../_dto/types";
+import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
+
+import EditTaskModal from "@/components/EditTaskModal"
+
+
+
+import { Camera } from 'lucide-react';
 
 
 
@@ -36,10 +38,6 @@ export default function Home() {
 		getTasks();
 	}
 
-	function handleEditButton(id:number) {
-		console.log("handle Edit Button for ID: " + id);
-	}
-
 	function handleDeleteButton(id:number) {
 		console.log("handle Delete Button for ID: " + id);
 	}
@@ -51,6 +49,8 @@ export default function Home() {
 				<h1 className="text-4xl font-bold">Task Project</h1>
 			</div>
 
+			
+			
 			<Button className="w-fit mb-[30px]" variant={"default"} onClick={() => { handleLoadTaskButton() }}> Load Tasks Data </Button>
 
 			{josnTasksArray.length === 0 ? (
@@ -81,7 +81,7 @@ export default function Home() {
 									<TableCell>{new Date(task.due_on).toLocaleDateString()}</TableCell>
 									<TableCell>{task.status}</TableCell>
 									<TableCell className="flex flex-row gap-2 justify-center">
-										<Button variant={"secondary"} onClick={() => { handleEditButton(task.id) }}> Edit </Button>
+										<EditTaskModal task={task} updateJosnTasksArray={setJosnTasksArray}/>
 										<Button variant={"destructive"} onClick={() => { handleDeleteButton(task.id) }}> Delete </Button>
 									</TableCell>
 								</TableRow>
@@ -94,7 +94,11 @@ export default function Home() {
 
 
 			<Camera color="red" size={30} />
-			{/* <p className="text-4xl font-bold">{exampleDtoObject.name}</p> */}
+
+
+
+
+
 		</main>
 	)
 }
@@ -109,3 +113,8 @@ export default function Home() {
 // 	name: "aatir",
 // 	age: 26
 // }
+
+
+
+// create enum for status and use that in your select field for the form
+
