@@ -6,10 +6,14 @@ import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 
 import EditTaskModal from "@/components/EditTaskModal"
+import { tasks } from "./data"
 
 
 
 import { Camera } from 'lucide-react';
+
+
+import InputGroupDemo from '../dump/rough';
 
 
 
@@ -19,8 +23,9 @@ export default function Home() {
 
 	async function getTasks() {
 		try {
-			const response = await fetch('https://gorest.co.in/public/v2/todos');
-			setJosnTasksArray(await response.json());
+			// const response = await fetch('https://gorest.co.in/public/v2/todos');
+			// setJosnTasksArray(await response.json());
+			setJosnTasksArray(tasks);
 			console.log(josnTasksArray);
 			console.log(typeof josnTasksArray);
 			return;
@@ -91,30 +96,8 @@ export default function Home() {
 					</Table>
 				</div>
 			)}
-
-
-			<Camera color="red" size={20} />
-
-
-
-
-
+			{/* <Camera color="red" size={20} /> */}
+			{/* <InputGroupDemo /> */}
 		</main>
 	)
 }
-
-
-
-
-
-
-
-// const exampleDtoObject: ExampleDTO = {
-// 	name: "aatir",
-// 	age: 26
-// }
-
-
-
-// create enum for status and use that in your select field for the form
-

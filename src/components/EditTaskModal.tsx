@@ -1,35 +1,36 @@
-import { Dispatch, SetStateAction, useRef } from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { TaskDTO } from "../../_dto/types";
 import EditTaskForm from "@/components/EditTaskForm"
 
-
-import { Camera } from 'lucide-react';
+// import {useVisuallyHidden} from 'react-aria';
 
 
 
 // export default function EditTaskModal({id, user_id, title, due_on, status}: TaskDTO) {
 export default function EditTaskModal({task, updateJosnTasksArray}: {task: TaskDTO, updateJosnTasksArray: Dispatch<SetStateAction<TaskDTO[]>>}) {
-    const {id, user_id, title, due_on, status} = task;
-    
-    let inputTitleRef = useRef(null);
-    
-    // function handleEditSubmit(){
-    //     updateJosnTasksArray(() => {
-    //         console.log("Inside function update.Josn.Tasks.Array");
-    //     });
-    // }
-    
+
+    // let { visuallyHiddenProps } = useVisuallyHidden();
+
     return (
         <Dialog>
             <DialogTrigger asChild>
                 <Button variant="secondary">Edit</Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-md">
-                <EditTaskForm />
+            {/* <DialogContent className="sm:max-w-md"> */}
+            {/* <DialogHeader>
+                <DialogTitle>Edit Table</DialogTitle>
+                <DialogDescription>
+                    Edit the form and Press the Submit Button.
+                </DialogDescription>
+            </DialogHeader> */}
+            <DialogContent className="sm:max-w-[500px]">
+                <DialogTitle>Edit Table</DialogTitle>
+                <DialogDescription>
+                    Edit the form and Press the Submit Button.
+                </DialogDescription>
+                <EditTaskForm task={task} updateJosnTasksArray={updateJosnTasksArray}/>
             </DialogContent>
         </Dialog>
     )
