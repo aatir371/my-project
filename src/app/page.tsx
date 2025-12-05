@@ -93,7 +93,7 @@ export default function Home() {
 			)}
 
 
-			<Camera color="red" size={30} />
+			<Camera color="red" size={20} />
 
 
 
