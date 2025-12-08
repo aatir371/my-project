@@ -23,9 +23,9 @@ export default function Home() {
 
 	async function getTasks() {
 		try {
-			// const response = await fetch('https://gorest.co.in/public/v2/todos');
-			// setJosnTasksArray(await response.json());
-			setJosnTasksArray(tasks);
+			const response = await fetch('https://gorest.co.in/public/v2/todos');
+			setJosnTasksArray(await response.json());
+			// setJosnTasksArray(tasks);
 			console.log(josnTasksArray);
 			console.log(typeof josnTasksArray);
 			return;
@@ -54,8 +54,6 @@ export default function Home() {
 				<h1 className="text-4xl font-bold">Task Project</h1>
 			</div>
 
-			
-			
 			<Button className="w-fit mb-[30px]" variant={"default"} onClick={() => { handleLoadTaskButton() }}> Load Tasks Data </Button>
 
 			{josnTasksArray.length === 0 ? (
@@ -86,6 +84,7 @@ export default function Home() {
 									<TableCell>{new Date(task.due_on).toLocaleDateString()}</TableCell>
 									<TableCell>{task.status}</TableCell>
 									<TableCell className="flex flex-row gap-2 justify-center">
+										{/* <EditTaskModal task={task} updateJosnTasksArray={() => {setJosnTasksArray()}}/> */}
 										<EditTaskModal task={task} updateJosnTasksArray={setJosnTasksArray}/>
 										<Button variant={"destructive"} onClick={() => { handleDeleteButton(task.id) }}> Delete </Button>
 									</TableCell>

@@ -22,14 +22,14 @@ import { Camera } from 'lucide-react';
 export default function EditTaskForm({task, updateJosnTasksArray}: {task: TaskDTO, updateJosnTasksArray: Dispatch<SetStateAction<TaskDTO[]>>}) {
 
     const {id, user_id, title, due_on, status} = task;
-    const idRef = useRef<HTMLInputElement>(null);
+    const submitButtonRef = useRef<HTMLButtonElement>(null);
 
     const formSchema = z.object({
-        id: z.number().nonoptional(),
-        user_id: z.number().nonnegative({ error: "User ID can not be negative." }).nonoptional(),
+        id: z.number().nonnegative({ error: "ID can not be negative." }).nonoptional({ error: "ID is required." }),
+        user_id: z.number().nonnegative({ error: "User ID can not be negative." }).nonoptional({ error: "User ID is required." }),
         title: z.string().nonempty({ error: "Please enter a title." }).nonoptional({ error: "Title is required." }),
-        due_on: z.string().nonempty({ error: "Please enter a title." }).nonoptional({ error: "Title is required." }),
-        status: z.string().nonempty({ error: "Please enter a title." }).nonoptional({ error: "Title is required." }),
+        due_on: z.string().nonempty({ error: "Please enter a date." }).nonoptional({ error: "Date is required." }),
+        status: z.string().nonempty({ error: "Please select a status." }).nonoptional(),
     })
 
     const form = useForm<z.infer<typeof formSchema>>({
@@ -60,10 +60,22 @@ export default function EditTaskForm({task, updateJosnTasksArray}: {task: TaskDT
         // })
         console.log("Submit Button Pressed")
         console.log(data)
-        // if (idRef.current){
-        //     console.log(idRef.current.value);
-        // }
-        
+
+        if (submitButtonRef.current) submitButtonRef.current.disabled = true;
+
+        setTimeout(() => {
+            updateJosnTasksArray((jsonArray): TaskDTO[] => {
+                jsonArray.forEach((element, i, dataArray) => {
+                    if (element.id === data.id){
+                        dataArray[i].title = data.title;
+                        dataArray[i].due_on = new Date(data.due_on);
+                        dataArray[i].status = data.status;
+                    }
+                });
+                return jsonArray;
+            });
+            if (submitButtonRef.current) submitButtonRef.current.disabled = false;
+        }, 5000);
     }
 
     return (
@@ -188,8 +200,8 @@ export default function EditTaskForm({task, updateJosnTasksArray}: {task: TaskDT
                                                 <SelectGroup>
                                                     <SelectLabel>Status</SelectLabel>
                                                     {/* <SelectLabel>{field.value}</SelectLabel> */}
-                                                    <SelectItem value="Completed">Completed</SelectItem>
-                                                    <SelectItem value="Pending">Pending</SelectItem>
+                                                    <SelectItem value="completed">completed</SelectItem>
+                                                    <SelectItem value="pending">pending</SelectItem>
                                                 </SelectGroup>
                                             </SelectContent>
                                         </Select>
@@ -208,7 +220,7 @@ export default function EditTaskForm({task, updateJosnTasksArray}: {task: TaskDT
                         {/* <Button type="button" variant="outline" onClick={() => form.reset()}>
                             Reset
                         </Button> */}
-                        <Button type="submit" form="form-rhf-demo">
+                        <Button ref={submitButtonRef} type="submit" form="form-rhf-demo" >
                             Submit
                         </Button>
                     </Field>

@@ -11,8 +11,8 @@ export default function SelectDemo() {
             <SelectContent>
                 <SelectGroup>
                     <SelectLabel>Status</SelectLabel>
-                    <SelectItem value="Completed">Completed</SelectItem>
-                    <SelectItem value="Pending">Pending</SelectItem>
+                    <SelectItem value="completed">completed</SelectItem>
+                    <SelectItem value="pending">pending</SelectItem>
                 </SelectGroup>
             </SelectContent>
         </Select>
