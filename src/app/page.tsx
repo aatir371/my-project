@@ -6,14 +6,13 @@ import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
 
 import EditTaskModal from "@/components/EditTaskModal"
+import DeleteTaskModal from "@/components/DeleteTaskModal";
 import { tasks } from "./data"
 
 
 
 import { Camera } from 'lucide-react';
-
-
-import InputGroupDemo from '../dump/rough';
+// import InputGroupDemo from '../dump/rough';
 
 
 
@@ -23,9 +22,9 @@ export default function Home() {
 
 	async function getTasks() {
 		try {
-			const response = await fetch('https://gorest.co.in/public/v2/todos');
-			setJosnTasksArray(await response.json());
-			// setJosnTasksArray(tasks);
+			// const response = await fetch('https://gorest.co.in/public/v2/todos');
+			// setJosnTasksArray(await response.json());
+			setJosnTasksArray(tasks);
 			console.log(josnTasksArray);
 			console.log(typeof josnTasksArray);
 			return;
@@ -34,17 +33,14 @@ export default function Home() {
 		}
 	}
 
-	// useEffect(() => {
-	// 	getTasks();
-	// }, []);
+	useEffect(() => {
+		// pop up a toast that shows an alert: The Data was updated
+		
+	}, [josnTasksArray]);
 
 
 	function handleLoadTaskButton() {
 		getTasks();
-	}
-
-	function handleDeleteButton(id:number) {
-		console.log("handle Delete Button for ID: " + id);
 	}
 
 	return (
@@ -84,9 +80,8 @@ export default function Home() {
 									<TableCell>{new Date(task.due_on).toLocaleDateString()}</TableCell>
 									<TableCell>{task.status}</TableCell>
 									<TableCell className="flex flex-row gap-2 justify-center">
-										{/* <EditTaskModal task={task} updateJosnTasksArray={() => {setJosnTasksArray()}}/> */}
 										<EditTaskModal task={task} updateJosnTasksArray={setJosnTasksArray}/>
-										<Button variant={"destructive"} onClick={() => { handleDeleteButton(task.id) }}> Delete </Button>
+										<DeleteTaskModal id={task.id} updateJosnTasksArray={setJosnTasksArray}/>
 									</TableCell>
 								</TableRow>
 								);

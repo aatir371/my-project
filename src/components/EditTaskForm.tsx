@@ -9,7 +9,8 @@ import * as z from "zod"
 import { Button } from "@/components/ui/button"
 import { CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Field, FieldError, FieldGroup, FieldLabel } from "@/components/ui/field"
-import { InputGroup, InputGroupAddon, InputGroupInput } from "@/components/ui/input-group"
+import { InputGroup, InputGroupAddon, InputGroupInput, InputGroupButton } from "@/components/ui/input-group"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { TaskDTO } from "../../_dto/types"
 import { Dispatch, SetStateAction } from "react";
@@ -19,9 +20,9 @@ import { Camera } from 'lucide-react';
 
 
 
-export default function EditTaskForm({task, updateJosnTasksArray}: {task: TaskDTO, updateJosnTasksArray: Dispatch<SetStateAction<TaskDTO[]>>}) {
+export default function EditTaskForm({ task, updateJosnTasksArray, openDialigFunction }: { task: TaskDTO, updateJosnTasksArray: Dispatch<SetStateAction<TaskDTO[]>>, openDialigFunction: Dispatch<SetStateAction<boolean>> }) {
 
-    const {id, user_id, title, due_on, status} = task;
+    const { id, user_id, title, due_on, status } = task;
     const submitButtonRef = useRef<HTMLButtonElement>(null);
 
     const formSchema = z.object({
@@ -65,17 +66,22 @@ export default function EditTaskForm({task, updateJosnTasksArray}: {task: TaskDT
 
         setTimeout(() => {
             updateJosnTasksArray((jsonArray): TaskDTO[] => {
-                jsonArray.forEach((element, i, dataArray) => {
-                    if (element.id === data.id){
+
+                const tempArray = [...jsonArray];
+
+                tempArray.forEach((element, i, dataArray) => {
+                    if (element.id === data.id) {
                         dataArray[i].title = data.title;
                         dataArray[i].due_on = new Date(data.due_on);
                         dataArray[i].status = data.status;
                     }
                 });
-                return jsonArray;
+                return tempArray;
             });
             if (submitButtonRef.current) submitButtonRef.current.disabled = false;
-        }, 5000);
+
+            openDialigFunction(false);
+        }, 5);
     }
 
     return (
@@ -100,7 +106,7 @@ export default function EditTaskForm({task, updateJosnTasksArray}: {task: TaskDT
                                             ID
                                         </FieldLabel>
                                         <InputGroup>
-                                            <InputGroupInput 
+                                            <InputGroupInput
                                                 {...field}
                                                 disabled
                                             />
@@ -124,7 +130,7 @@ export default function EditTaskForm({task, updateJosnTasksArray}: {task: TaskDT
                                             User ID
                                         </FieldLabel>
                                         <InputGroup>
-                                            <InputGroupInput 
+                                            <InputGroupInput
                                                 {...field}
                                                 disabled
                                             />
@@ -148,7 +154,7 @@ export default function EditTaskForm({task, updateJosnTasksArray}: {task: TaskDT
                                             Title
                                         </FieldLabel>
                                         <InputGroup>
-                                            <InputGroupInput {...field}/>
+                                            <InputGroupInput {...field} />
                                             <InputGroupAddon>
                                                 <Camera color="blue" size={20} />
                                             </InputGroupAddon>
@@ -189,7 +195,11 @@ export default function EditTaskForm({task, updateJosnTasksArray}: {task: TaskDT
                                         <FieldLabel htmlFor="form-rhf-demo-title">
                                             State
                                         </FieldLabel>
-                                        <Select>
+                                        <Select
+                                            // name={field.name}
+                                            // value={field.value}
+                                            onValueChange={field.onChange}
+                                            >
                                             <SelectTrigger className="flex flex-row justify-start w-full">
                                                 <Camera color="blue" size={20} />
                                                 <div className="flex flex-row justify-between w-full">
@@ -199,7 +209,9 @@ export default function EditTaskForm({task, updateJosnTasksArray}: {task: TaskDT
                                             <SelectContent>
                                                 <SelectGroup>
                                                     <SelectLabel>Status</SelectLabel>
-                                                    {/* <SelectLabel>{field.value}</SelectLabel> */}
+                                                    <InputGroup>
+                                                        <InputGroupInput {...field} />
+                                                    </InputGroup>
                                                     <SelectItem value="completed">completed</SelectItem>
                                                     <SelectItem value="pending">pending</SelectItem>
                                                 </SelectGroup>
