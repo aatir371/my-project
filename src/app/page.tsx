@@ -22,9 +22,9 @@ export default function Home() {
 
 	async function getTasks() {
 		try {
-			// const response = await fetch('https://gorest.co.in/public/v2/todos');
-			// setJosnTasksArray(await response.json());
-			setJosnTasksArray(tasks);
+			const response = await fetch('https://gorest.co.in/public/v2/todos');
+			setJosnTasksArray(await response.json());
+			// setJosnTasksArray(tasks);
 			console.log(josnTasksArray);
 			console.log(typeof josnTasksArray);
 			return;
