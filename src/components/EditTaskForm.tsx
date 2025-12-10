@@ -1,6 +1,6 @@
 "use client"
 
-import { useRef, DetailedHTMLProps, InputHTMLAttributes } from "react"
+import { useRef } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Controller, useForm } from "react-hook-form"
 import { toast } from "sonner"
@@ -50,7 +50,7 @@ export default function EditTaskForm({ task, updateJosnTasksArray, openDialigFun
         //             <code>{JSON.stringify(data, null, 2)}</code>
         //         </pre>
         //     ),
-        //     position: "bottom-right",
+        //     position: "top-center",
         //     classNames: {
         //         content: "flex flex-col gap-2",
         //     },

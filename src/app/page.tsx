@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { TaskDTO } from "../../_dto/types";
 import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow, } from "@/components/ui/table"
+import { toast } from "sonner"
 
 import EditTaskModal from "@/components/EditTaskModal"
 import DeleteTaskModal from "@/components/DeleteTaskModal";
@@ -12,7 +13,7 @@ import { tasks } from "./data"
 
 
 import { Camera } from 'lucide-react';
-// import InputGroupDemo from '../dump/rough';
+import DemoRoughComponent from '../dump/rough';
 
 
 
@@ -22,9 +23,9 @@ export default function Home() {
 
 	async function getTasks() {
 		try {
-			const response = await fetch('https://gorest.co.in/public/v2/todos');
-			setJosnTasksArray(await response.json());
-			// setJosnTasksArray(tasks);
+			// const response = await fetch('https://gorest.co.in/public/v2/todos');
+			// setJosnTasksArray(await response.json());
+			setJosnTasksArray(tasks);
 			console.log(josnTasksArray);
 			console.log(typeof josnTasksArray);
 			return;
@@ -35,7 +36,9 @@ export default function Home() {
 
 	useEffect(() => {
 		// pop up a toast that shows an alert: The Data was updated
-		
+		toast.info("The Data was updated", {
+			position: "top-center"
+		});
 	}, [josnTasksArray]);
 
 
@@ -91,7 +94,7 @@ export default function Home() {
 				</div>
 			)}
 			{/* <Camera color="red" size={20} /> */}
-			{/* <InputGroupDemo /> */}
+			{/* <DemoRoughComponent /> */}
 		</main>
 	)
 }

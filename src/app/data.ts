@@ -71,4 +71,11 @@ export const tasks: TaskDTO[] = [
         due_on: new Date("2025-02-15"),
         status: "pending",
     },
+    {
+        id: 11,
+        user_id: 104,
+        title: "Create Documentation for payment system",
+        due_on: new Date("2025-03-22"),
+        status: "completed",
+    },
 ];
