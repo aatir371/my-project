@@ -32,13 +32,16 @@ export default function EditTaskForm({ task, updateJosnTasksArray, openDialigFun
         status: z.string().nonempty({ error: "Please select a status." }).nonoptional(),
     })
 
+    // const ndate = new Date(due_on).toISOString().replace("Z", "")
+    // const date = ndate.replace("Z", "");
+    
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             id: id,
             user_id: user_id,
             title: title,
-            due_on: new Date(due_on).toISOString(), // chatgpt
+            due_on: new Date(due_on).toISOString().replace("Z", ""), // chatgpt
             status: status,
         },
     })
@@ -71,16 +74,18 @@ export default function EditTaskForm({ task, updateJosnTasksArray, openDialigFun
                 tempArray.forEach((element, i, dataArray) => {
                     if (element.id === data.id) {
                         dataArray[i].title = data.title;
-                        dataArray[i].due_on = new Date(data.due_on);
+                        dataArray[i].due_on = new Date(data.due_on).toISOString();
                         dataArray[i].status = data.status;
-                    }
+                    } // for searching using index (to avoid )
                 });
+                console.log(tempArray);
                 return tempArray;
             });
+
             if (submitButtonRef.current) submitButtonRef.current.disabled = false;
 
             openDialigFunction(false);
-        }, 5);
+        }, 5000);
     }
 
     return (
